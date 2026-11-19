@@ -884,9 +884,12 @@ homeform::homeform(QQmlApplicationEngine *engine, bluetooth *bl) {
 #if defined(Q_OS_WIN) || (defined(Q_OS_MAC) && !defined(Q_OS_IOS)) || (defined(Q_OS_ANDROID) && defined(LICENSE))
 #ifndef STEAM_STORE
     connect(engine, &QQmlApplicationEngine::quit, &QGuiApplication::quit);
+    // Windows fork: no timed trial or supporter lookup (2026-11-19).
+#ifndef Q_OS_WIN
     connect(&tLicense, &QTimer::timeout, this, &homeform::licenseTimeout);
     tLicense.start(600000);
     licenseRequest();
+#endif
 #endif
 #endif
 
